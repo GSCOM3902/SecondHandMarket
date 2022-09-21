@@ -1,0 +1,79 @@
+
+.Navbar{
+    position: fixed;
+    box-shadow:0 1px 10px rgb(1, 19, 5);
+    background-color:lightsalmon;
+    width:100%;
+    height: 5vh;
+    /*
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    */
+    left: 50%;
+    top:0%;
+    transform: translate(-50%);
+}
+
+.NavHomePageButton{
+    position:absolute;
+    display: block;
+    width: 10%;
+    height: 5vh;
+    text-align: center;
+    background-color: bisque;
+}
+
+
+.NavSearchBar{
+    position:absolute;
+    display:block;
+    width: 50%;
+    height: 3vh;
+    left:15%;
+    top:50%;
+    transform: translate(0,-50%);
+    background-color: bisque;
+    text-align: center;
+}
+
+.NavShoppingCar{
+    position: absolute;
+    display: inline-block;
+    width: 10%;
+    height: 5vh;
+    right: 20%;
+    background-color: bisque;
+}
+
+
+.NavLoginButton{
+    position:absolute;
+    display: inline-block;
+    width: 18%;
+    height: 5vh;
+    right: 0;
+    background-color: bisque;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+.Navbar div a{
+    display: block;
+    color: black;
+    line-height: 4vh;
+    text-decoration: none;
+}
+
+
+
+
+@media (min-width:40rem) {
+    .Navbar div a:hover{
+        background-color:cadetblue;
+        color: aliceblue;
+        height: 5vh;
+    }
+}

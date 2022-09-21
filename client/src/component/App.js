@@ -1,10 +1,19 @@
 import React from "react";
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+
+import Login from "./Login";
+import HomePage from "./HomePage";
+
+
 
 const App=()=>{
     return(
-        <div>
-            connect to heroku!
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="login" element={<Login />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
