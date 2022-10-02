@@ -1,4 +1,9 @@
 @import url("./Homepage.css");
+@import url("./member.css");
+
+body{
+   background-color: blanchedalmond;
+}
 
 
 /* http://meyerweb.com/eric/tools/css/reset/ 

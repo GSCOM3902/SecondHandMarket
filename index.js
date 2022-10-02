@@ -1,7 +1,18 @@
 const express=require("express");
 const app=express();
+const route=require('./routes/apiRoute');
 
 const PORT=process.env.PORT||5000;
+
+const mongoose=require('mongoose');
+
+const DURL="mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose.connect(DURL).then(
+    console.log("connected!")
+).catch(err=>{console.log(err)});
+
+route(app);
 
 if(process.env.NODE_ENV==='production'){
 
