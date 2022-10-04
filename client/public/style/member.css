@@ -42,7 +42,7 @@
 }
 
 .googlePhoto{
-    width:190px;
+    width:12rem;
     height:7vh;
     background-image: url(../image/btn_google_signin_light_focus_web.png);
 }
