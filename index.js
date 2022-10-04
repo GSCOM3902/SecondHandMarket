@@ -1,16 +1,34 @@
 const express=require("express");
 const app=express();
-const route=require('./routes/apiRoute');
+const mongoose=require('mongoose');
+const cookieSession=require('cookie-session');
+const passport=require('passport');
+const keys=require('./config/keys');
+require('./model/Account');
+require('./services/passport');
+
 
 const PORT=process.env.PORT||5000;
-
-const mongoose=require('mongoose');
-
 const DURL="mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";
 
+
+
+app.use(
+    cookieSession({
+        maxAge:0,
+        keys:[keys.cookieKey]
+    })
+    );//passport需要session
+    
+app.use(passport.initialize());
+app.use(passport.session());
+    
 mongoose.connect(DURL).then(
     console.log("connected!")
 ).catch(err=>{console.log(err)});
+    //連接mongoDB
+
+const route=require('./routes/apiRoute');
 
 route(app);
 

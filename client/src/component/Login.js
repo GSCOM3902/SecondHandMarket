@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
-
-
 import axios from 'axios';
+
 
 const Login=()=>{
     const navigate=useNavigate();
@@ -23,11 +22,13 @@ const Login=()=>{
                 alert("沒有找到該帳號喔!請先註冊會員!");
             }
             else if(res.data=="1"){
+                
                 navigate("/");//登入成功，回首頁
             }
         });
     };
     
+ 
     
     useEffect(()=>{
         let loginButton=document.getElementById('loginButton');
@@ -54,6 +55,9 @@ const Login=()=>{
                         name="password"
                         id="loginPassword"
                         />
+                    </div>
+                    <div className="googlePhoto" id="googleLink">
+                        <a href="/auth/google"></a>
                     </div>
                     <div>
                         <input

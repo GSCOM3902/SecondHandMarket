@@ -1,6 +1,7 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const Account=require("../model/Account");
+const passport =require('passport');
 
 
 module.exports=(app)=>{
@@ -23,7 +24,7 @@ module.exports=(app)=>{
             });
             
             await account.save();
-            
+    
             res.send("1");
         }
 
@@ -42,6 +43,7 @@ module.exports=(app)=>{
         const user=await Account.where("account").equals(loginAccount);
         
         if(user.length!==0){//如果有註冊了話
+            console.log(user[0].id);
             res.send("1");
         }
 
@@ -50,5 +52,25 @@ module.exports=(app)=>{
         }
 
     });
+
+    
+
+
+
+    //google oauth api
+    app.get('/auth/google',passport.authenticate('google',{
+        scope:['profile','email']
+    }));
+    
+    app.get('/auth/google/callback',passport.authenticate('google'),function(req,res){
+        res.redirect('/');
+    });
+
+    app.get('/api/getGoogleData',(req,res)=>{
+        res.send(req.user);
+    });
+
+
+    
 
 };
