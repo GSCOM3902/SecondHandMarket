@@ -15,7 +15,7 @@ const DURL="mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrite
 
 app.use(
     cookieSession({
-        maxAge:0,
+        maxAge:30*24*60*60*1000,
         keys:[keys.cookieKey]
     })
     );//passport需要session

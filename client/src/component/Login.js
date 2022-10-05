@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
+import { useSelector,useStore,useDispatch } from "react-redux";
+import { memberlogin } from "../action";
 import NavBar from "./NavBar";
 import axios from 'axios';
 
 
+
 const Login=()=>{
     const navigate=useNavigate();
+    const store=useStore();
+    const dispatch=useDispatch();
+
 
     const login=async ()=>{
 
@@ -21,8 +27,8 @@ const Login=()=>{
             if(res.data=="0"){
                 alert("沒有找到該帳號喔!請先註冊會員!");
             }
-            else if(res.data=="1"){
-                
+            else{
+                sessionStorage.setItem("session_memberID",res.data.id);
                 navigate("/");//登入成功，回首頁
             }
         });

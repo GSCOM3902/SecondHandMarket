@@ -43,8 +43,9 @@ module.exports=(app)=>{
         const user=await Account.where("account").equals(loginAccount);
         
         if(user.length!==0){//如果有註冊了話
-            console.log(user[0].id);
-            res.send("1");
+            res.send({
+                id:user[0].id
+            })
         }
 
         else{
@@ -63,12 +64,19 @@ module.exports=(app)=>{
     }));
     
     app.get('/auth/google/callback',passport.authenticate('google'),function(req,res){
+
         res.redirect('/');
     });
 
     app.get('/api/getGoogleData',(req,res)=>{
         res.send(req.user);
     });
+
+    app.get('/api/logout',(req,res)=>{
+        req.logout();
+        res.send(req.user);
+        res.redirect('back');
+    })
 
 
     

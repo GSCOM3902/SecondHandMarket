@@ -58,6 +58,8 @@
     text-decoration: none;
 }
 
+
+
 @media (min-width:428px) {
     .formPosition{
         position:absolute;
