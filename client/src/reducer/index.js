@@ -1,9 +1,12 @@
 import { combineReducers } from "redux";
 
 
-const test=(state=0,action)=>{
+const memberState=(state="",action)=>{
     switch(action.type){
-        case "test":
+        case "memberlogin":
+            return action.payload;
+
+        case "memberlogout":
             return action.payload;
         
         default:return state;
@@ -11,5 +14,5 @@ const test=(state=0,action)=>{
 }
 
 export default combineReducers({
-    test:test
+    memberID:memberState
 });

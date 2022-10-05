@@ -1,5 +1,10 @@
 
-export const test=()=>({
-    type:"test",
-    payload:1
+export const memberlogin=(id)=>({
+    type:"memberlogin",
+    payload:id
 });
+
+export const memberlogout=()=>({
+    type:"memberlogout",
+    payload:""    
+})

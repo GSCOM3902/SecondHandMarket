@@ -23,7 +23,7 @@ passport.use(
         },//使用api所需的資料
         async (accessToken,refreshToken,profile,done)=>{
             //google接收所需資料後，正確可以使用callback funtion
-            Account.findOne({account:profile.id}).then((existingUser)=>{
+            Account.findOne({account:profile.emails[0].value}).then((existingUser)=>{
                 //確認資料庫有沒有profile.id
                 if(existingUser){
                     done(null,existingUser);
@@ -31,8 +31,8 @@ passport.use(
                 }
                 else{
                     new Account({
-                        account:profile.id,
-                        password:profile.emails[0].value
+                        account:profile.emails[0].value,
+                        password:profile.id
                     }).save().then(account=>done(null,account));//寫進資料庫
                 }
             });
