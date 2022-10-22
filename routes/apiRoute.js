@@ -2,6 +2,9 @@ const express=require("express");
 const mongoose=require("mongoose");
 const Account=require("../model/Account");
 const passport =require('passport');
+const extractProduct=require('../model/product');
+const searchProduct=require('../model/searchProduct');
+
 
 
 module.exports=(app)=>{
@@ -13,10 +16,13 @@ module.exports=(app)=>{
         let signupAccount=req.body.account;
         let signupPassword=req.body.password;
         
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+
+
         const exist=await Account.where("account").equals(signupAccount);
         //先查詢是否有人註冊過同樣帳號
 
-
+        
         if(exist.length===0){ //如果還沒被註冊，寫進資料庫
             let account=new Account({
                 account:signupAccount,
@@ -24,11 +30,14 @@ module.exports=(app)=>{
             });
             
             await account.save();
-    
+            
+            db.disconnect();//關閉資料庫
             res.send("1");
         }
 
         else{//被註冊了話
+
+            db.disconnect();//關閉資料庫
             res.send("0");
         }
 
@@ -38,9 +47,14 @@ module.exports=(app)=>{
     //登入api
     app.post('/api/login',async (req,res)=>{
         let loginAccount=req.body.account;
-        let loginPassword=req.body.password;
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        
 
         const user=await Account.where("account").equals(loginAccount);
+
+       
+        db.disconnect();//關閉資料庫
+
         
         if(user.length!==0){//如果有註冊了話
             res.send({
@@ -75,10 +89,27 @@ module.exports=(app)=>{
     app.get('/api/logout',(req,res)=>{
         req.logout();
         res.send(req.user);
-        res.redirect('back');
     })
 
 
     
+    //product產生
+    app.get('/api/product',async (req,res)=>{
+        let ProductData=await extractProduct;
+        res.send(ProductData);//回傳產品陣列
+    });
+
+    app.get('/api/product/ID',async(req,res)=>{
+        let ProductDetail=await searchProduct(req.query.ID);//根據前端給的id參詢
+        console.log(ProductDetail);
+        res.send(ProductDetail);
+        });
+
+
+    //shoppingcar
+    app.post('/api/sendToShoppingCar',async(req,res)=>{
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        const exist=await Account.where("_id").equals(req.body.memberID);//找尋該用戶資料
+    });
 
 };

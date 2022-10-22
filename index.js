@@ -12,6 +12,9 @@ const PORT=process.env.PORT||5000;
 const DURL="mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";
 
 
+mongoose.connect(DURL).then(  //連接mongoDB
+    console.log("MongoDB connected!")
+).catch(err=>{console.log(err)});
 
 app.use(
     cookieSession({
@@ -23,10 +26,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
     
-mongoose.connect(DURL).then(
-    console.log("connected!")
-).catch(err=>{console.log(err)});
-    //連接mongoDB
+  
 
 const route=require('./routes/apiRoute');
 

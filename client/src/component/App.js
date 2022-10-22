@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import Login from "./Login";
 import HomePage from "./HomePage";
 import Signup from "./Signup";
+import Product from "./Product";
 
 
 const App=()=>{
@@ -14,6 +15,7 @@ const App=()=>{
                 <Route path="/" element={<HomePage />} />
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
+                <Route path="product/:productID" element={<Product />} />
             </Routes>
         </BrowserRouter>
     );

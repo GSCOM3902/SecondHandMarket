@@ -1,0 +1,73 @@
+.productCube{
+    width: 100%;
+    margin-top: 5vh;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.productFrame{
+    text-align: center;
+    flex: 1;
+}
+.productImage{
+    width:50%;
+}
+.productTitle{
+    width: 50%;
+    flex:1;
+    background-color: white;
+    border:1px;
+    border-style: solid;
+    display:inline-flex;
+}
+
+.productName{
+    flex:2;
+    text-align: center;
+    font-family:'微軟正黑體', "Microsoft JhengHei";
+    font-size: 1.5rem;
+    color:rgb(79, 39, 24);
+}
+
+.productPrice{
+    flex: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    background-color: brown;
+    color: wheat;
+}
+
+.productDetail{
+    display: block;
+    background-color:whitesmoke;
+    border-color: gray;
+    border-style: dotted;
+    width:100%;
+    text-align: center;
+    font-size: larger;
+    flex:2;
+}
+
+.productComment{
+    text-align: center;
+    width: 100%;
+    display: block;
+    background-color: darkseagreen;
+    color: aliceblue;
+    border-style:ridge;
+    border-color: beige;
+}
+
+.productShoppingCar{
+    width: 100%;
+    display: block;
+    background-color:lightskyblue;
+    position: fixed;
+    bottom: 1%;
+    text-align: center;
+}
+
+.productShoppingCar:hover{
+    background-color: coral;
+}

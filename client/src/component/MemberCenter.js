@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React,{useEffect} from "react";
 import {Link} from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { memberlogin,memberlogout } from "../action";
@@ -20,8 +20,11 @@ const MemberCenter=()=>{
         //刪除session跟state
         const res=await axios.get('/api/logout');
         //登出gooleAuth,googleAuth有設cookieSession，要手動登出
+        if(res){
+            window.location.reload();
+            //重新刷新頁面
+        }
 
-        console.log(res);
     }
 
 

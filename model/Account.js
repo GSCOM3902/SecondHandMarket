@@ -10,6 +10,7 @@ const AccountSchema=new Schema({
         type:String,
         required:true
     }
+
 });
 
 const Account=mongoose.model('Account',AccountSchema);
