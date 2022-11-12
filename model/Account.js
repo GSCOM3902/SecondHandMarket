@@ -9,7 +9,12 @@ const AccountSchema=new Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    shoppingCart:{
+      type:[String]  
+    },
+    strick:false
+    
 
 });
 

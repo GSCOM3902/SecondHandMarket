@@ -26,7 +26,7 @@ module.exports=(app)=>{
         if(exist.length===0){ //如果還沒被註冊，寫進資料庫
             let account=new Account({
                 account:signupAccount,
-                password:signupPassword
+                password:signupPassword,
             });
             
             await account.save();
@@ -106,10 +106,29 @@ module.exports=(app)=>{
         });
 
 
-    //shoppingcar
-    app.post('/api/sendToShoppingCar',async(req,res)=>{
+    //shoppingcart
+    app.post('/api/sendToShoppingCart',async(req,res)=>{
         const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
-        const exist=await Account.where("_id").equals(req.body.memberID);//找尋該用戶資料
+        const instance=await Account.findById(req.body.memberID);
+        console.log(instance);//it find it
+
+        instance.shoppingCart.push(req.body.productID);
+
+        await instance.save(); //save update
+
+        await db.disconnect();//clsoe mongodb
+
+        res.send({state:true});//回傳ture,讓前端渲染畫面
+    });
+
+    //Account Search
+
+    app.get('/api/accountSearch',async(req,res)=>{
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        const instance=await Account.findById(req.query.memberID);
+        res.send({member:instance});
+
+        await db.disconnect();
     });
 
 };

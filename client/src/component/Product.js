@@ -4,6 +4,8 @@ import axios from "axios";
 import { useParams,useNavigate } from "react-router-dom";
 import checkURL from '../module/urlDatabase';
 import { useSelector,useDispatch } from "react-redux";
+import { addItemToShoppingCart } from "../action";
+
 
 
 const Product=()=>{
@@ -11,6 +13,9 @@ const Product=()=>{
     const [ProductDetail,setProductDetail]=useState(null);
     const memberID=useSelector(state=>state.memberID);
     const navigate=useNavigate();
+    const dispatch=useDispatch();
+
+
     const search=async()=>{
         let productDetail=await axios.get('/api/product/ID',{
             params:{ID:productID}
@@ -47,7 +52,7 @@ const Product=()=>{
                         留言
                     </div>
                 </div>
-                <div className="productShoppingCar" id="shoppingCarButton">
+                <div className="productShoppingCart" id="shoppingCartButton">
                     加入購物車
                 </div>
             </>
@@ -63,20 +68,27 @@ const Product=()=>{
     useEffect(()=>{
         if(ProductDetail!==null&&memberID===""){
             //以免發生抓到NULL物件,沒登入不能加入購物車
-            let button=document.getElementById('shoppingCarButton');
+            let button=document.getElementById('shoppingCartButton');
             button.addEventListener('click',async()=>{
                 alert("請先登入會員");
                 navigate('/login');
                 //指引去登入區
             });
         }
-        else if(ProductDetail!==null&&memberID!==""){
-            let button=document.getElementById('shoppingCarButton');
-            button.addEventListener('click',()=>{
-                axios.post('/api/sendToShoppingCar',{
+        else if(ProductDetail!==null&&memberID!==""){//已經登入
+            let button=document.getElementById('shoppingCartButton');
+            button.addEventListener('click',async()=>{
+                const state=await axios.post('/api/sendToShoppingCart',{
                     memberID:memberID,
                     productID:ProductDetail._id
                 });
+
+                if(state){
+                    dispatch(addItemToShoppingCart(ProductDetail._id));
+                    //傳入redux讓shoppingCart更新
+                    alert("已經加入購物車!");
+                    navigate(`/shoppingCartPage/${memberID}`);
+                }
             });
         }
     },[ProductDetail]);

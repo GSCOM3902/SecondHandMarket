@@ -1,6 +1,8 @@
 @import url("./Homepage.css");
 @import url("./member.css");
 @import url("./ProductPage.css");
+@import url("./shoppingCart.css");
+
 
 body{
    background-color: blanchedalmond;

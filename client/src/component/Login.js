@@ -29,7 +29,7 @@ const Login=()=>{
             }
             else{
                 sessionStorage.setItem("session_memberID",res.data.id);
-                navigate("/");//登入成功，回首頁
+                window.history.back();//登入成功，回上一頁
             }
         });
     };

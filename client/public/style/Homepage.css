@@ -39,13 +39,14 @@
     text-align: center;
 }
 
-.NavShoppingCar{
+.NavShoppingCart{
     position: absolute;
     display: inline-block;
     width: 10%;
     height: 5vh;
     right: 20%;
     background-color: bisque;
+    text-align: center;
 }
 
 
