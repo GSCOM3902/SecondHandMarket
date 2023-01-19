@@ -57,7 +57,7 @@ const SearchBar=(props)=>{
         return ()=>{
             SearchInput.removeEventListener('keypress',searchEvent);
             SearchButton.removeEventListener('click',clickEvent);
-        };
+        };//記得清除事件
     },[]);
 
     return (
