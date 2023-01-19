@@ -2,12 +2,12 @@ import React,{useEffect} from "react";
 import axios from "axios";
 import { useSelector,useDispatch } from "react-redux";
 import {showMemberShoppingCart} from '../action/index';
-
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCart=()=>{
     const memberShoppingcart=useSelector(state=>state.memberShoppingCart);
     const memberID=useSelector(state=>state.memberID);
-    
+    const navigate=useNavigate();
     
 
     const dispatch=useDispatch();
@@ -37,17 +37,30 @@ const ShoppingCart=()=>{
                 </div>
             );
         }
+        else{
+            return null;
+        }
+    };
+
+    const turnToShoppingCartPage=()=>{
+        if(memberID===""){//如果還沒登入
+            alert("請先登入");
+            navigate('/login');
+        }
+        else{//已經登入了話
+            navigate(`/shoppingCartPage/${memberID}`)
+        }
     };
 
     useEffect(()=>{
         showShoppingCart();
     },[memberID,memberShoppingcart]);
-    // //根據有沒有登入或購物車狀態刷新,但因為雲端資料庫的
+    // //根據有沒有登入或購物車狀態刷新
 
     return(
-        <div id="shoppingCartFrame">
+        <div id="shoppingCartFrame" onClick={turnToShoppingCartPage}>
             <div className="shoppingCartWidget">
-                {memberShoppingcart.length===0?null:showNumOfItems()}
+                {showNumOfItems()}
             </div>
         </div>
     )

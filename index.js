@@ -7,6 +7,8 @@ const keys=require('./config/keys');
 require('./model/Account');
 require('./services/passport');
 
+require('events').EventEmitter.defaultMaxListeners = 100;
+
 
 const PORT=process.env.PORT||5000;
 const DURL="mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";

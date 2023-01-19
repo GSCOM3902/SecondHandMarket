@@ -27,6 +27,7 @@
     text-align: center;
     font-family:'微軟正黑體', "Microsoft JhengHei";
     font-size: 1.5rem;
+    background-color: white;
     color:rgb(79, 39, 24);
 }
 
@@ -63,8 +64,8 @@
     width: 100%;
     display: block;
     background-color:lightskyblue;
-    position: fixed;
-    bottom: 1%;
+    position: relative;
+    margin-top:5vh;
     text-align: center;
 }
 

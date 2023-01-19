@@ -13,7 +13,7 @@ const extractProduct=new Promise((resolve,reject)=>{//寫進promise控制流程
         const collection=connection.db.collection("product");
         
         //讓ProductData等於data
-        collection.find({}).toArray(function (err,data){
+        collection.find({}).toArray(function (err,data){//轉為陣列
             if(err){
                 console.log(err);
                 reject(err);

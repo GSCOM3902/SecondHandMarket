@@ -78,7 +78,6 @@ module.exports=(app)=>{
     }));
     
     app.get('/auth/google/callback',passport.authenticate('google'),function(req,res){
-
         res.redirect('/');
     });
 
@@ -89,19 +88,27 @@ module.exports=(app)=>{
     app.get('/api/logout',(req,res)=>{
         req.logout();
         res.send(req.user);
-    })
+    });
 
+
+
+    //clsoeDB
+    app.get('/api/closeDB',async(req,res)=>{
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        await db.disconnect();
+        res.send('close DB');
+    });
 
     
     //product產生
     app.get('/api/product',async (req,res)=>{
         let ProductData=await extractProduct;
+        console.log(ProductData);
         res.send(ProductData);//回傳產品陣列
     });
 
     app.get('/api/product/ID',async(req,res)=>{
         let ProductDetail=await searchProduct(req.query.ID);//根據前端給的id參詢
-        console.log(ProductDetail);
         res.send(ProductDetail);
         });
 
@@ -120,6 +127,7 @@ module.exports=(app)=>{
 
         res.send({state:true});//回傳ture,讓前端渲染畫面
     });
+
 
     //Account Search
 

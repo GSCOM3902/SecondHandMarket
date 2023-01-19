@@ -1,11 +1,12 @@
 import React,{useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { memberlogin,memberlogout } from "../action";
 import axios from "axios";
 
 const MemberCenter=()=>{
     const dispatch=useDispatch();
+    const navigate=useNavigate();
    
 
     const session_memberID=sessionStorage.getItem("session_memberID");
@@ -21,6 +22,7 @@ const MemberCenter=()=>{
         const res=await axios.get('/api/logout');
         //登出gooleAuth,googleAuth有設cookieSession，要手動登出
         if(res){
+            navigate('/');
             window.location.reload();
             //重新刷新頁面
         }

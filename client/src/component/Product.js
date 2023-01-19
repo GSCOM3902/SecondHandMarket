@@ -21,6 +21,8 @@ const Product=()=>{
             params:{ID:productID}
         });//接API取得該產品資料
         setProductDetail(productDetail.data[0]);//傳進state才能rerender
+        await axios.get('/api/closeDB');
+        //關掉資料庫
     };
 
 

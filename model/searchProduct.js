@@ -19,7 +19,7 @@ const searchProduct=async(ID)=>{
                     reject(err);
                 }
                 if(data){
-                    connection.close();//關閉資料庫，否則下次連不到
+                    // connection.close();//關閉資料庫，否則下次連不到
                     resolve(data);
                 }
             })
