@@ -23,20 +23,18 @@ const Commodity=(props)=>{
     
     
     const generateSearchedCommodity=(dataArr)=>{
-        console.log(dataArr);
 
         let filterWord=new RegExp(`${props.searchText}`);
 
-        //搜尋符合搜尋詞裡任一字
+        //搜尋符合搜尋詞
 
-        console.log(filterWord);
 
         let searchCommodityJsx=dataArr.filter((data)=>{
            if(filterWord.test(data.name)||filterWord.test(data.type)){
                 return data;
             }
         });
-        //使用filter先抓出符合條件的產品
+        //使用filter先抓出符合條件的產品，，搜尋產品的種類或是名稱
 
         setProductLsit(searchCommodityJsx.map((data,index)=>{
             //再將其轉成JSX，透過setState重新渲染

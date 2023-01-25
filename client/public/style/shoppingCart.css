@@ -32,7 +32,7 @@
     display: inline-flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -58,8 +58,8 @@
     margin-top: 1vh;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
+    align-items: stretch;
     background-color: bisque;
     border-color: black;
     border-style:groove;
@@ -90,7 +90,7 @@
     display:flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-items: center;
+    justify-items:space-between;
     align-items: center;
 }
 
@@ -123,7 +123,65 @@
 }
 
 
-@media (min-width:428px){
+.shoppingCartSideBox{
+    position:relative;
+    z-index: 1;
+    width: 10vw;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.shoppingCartDelete{
+    flex:1;
+    background-color:rgb(221, 21, 21);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteImg{
+    position:relative;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat ;
+    z-index: 1;
+    background-image: url(../image/28914912.png);
+}
+
+.shoppingCartModify{
+    position:relative;
+    flex: 1;
+    background-color: orangered;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modifyImg{
+    position:relative;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat    ;
+    z-index: 1;
+    background-image: url(../image/6501432.png  );
+}
+
+.correctImg{
+    position:relative;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat    ;
+    z-index: 1;
+    background-image: url(../image/4471472.png);
+}
+
+
+
+
+@media (min-width:820px){
     .shoppingCartWidget{
         width:20px;
         height:20px;
@@ -147,5 +205,23 @@
 
     .ItemListImg{
         width: 15vw;
+    }
+
+    .deleteImg{
+        width: 50px;
+        height: 50px;
+        background-image: url(../image/28914913.png);
+    }
+
+    .modifyImg{
+        width: 50px;
+        height: 50px;
+        background-image: url(../image/6501433.png  );
+    }
+
+    .correctImg{
+        width: 50px;
+        height: 50px;
+        background-image: url(../image/4471473.png);
     }
 }

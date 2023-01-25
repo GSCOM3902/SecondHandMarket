@@ -80,7 +80,7 @@ const Product=()=>{
         else if(ProductDetail!==null&&memberID!==""){//已經登入
             let button=document.getElementById('shoppingCartButton');
             button.addEventListener('click',async()=>{
-                const state=await axios.post('/api/sendToShoppingCart',{
+                const state=await axios.post('/api/product/ID',{
                     memberID:memberID,
                     productID:ProductDetail._id
                 });

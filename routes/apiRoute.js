@@ -4,7 +4,7 @@ const Account=require("../model/Account");
 const passport =require('passport');
 const extractProduct=require('../model/product');
 const searchProduct=require('../model/searchProduct');
-
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 module.exports=(app)=>{
@@ -55,8 +55,12 @@ module.exports=(app)=>{
        
         db.disconnect();//關閉資料庫
 
-        
+        console.log(user);
+
         if(user.length!==0){//如果有註冊了話
+
+            
+
             res.send({
                 id:user[0].id
             })
@@ -92,41 +96,94 @@ module.exports=(app)=>{
 
 
 
-    //clsoeDB
-    app.get('/api/closeDB',async(req,res)=>{
-        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
-        await db.disconnect();
-        res.send('close DB');
-    });
-
     
     //product產生
     app.get('/api/product',async (req,res)=>{
         let ProductData=await extractProduct;
-        console.log(ProductData);
         res.send(ProductData);//回傳產品陣列
     });
 
-    app.get('/api/product/ID',async(req,res)=>{
-        let ProductDetail=await searchProduct(req.query.ID);//根據前端給的id參詢
-        res.send(ProductDetail);
-        });
+
+    //Restful API 個別產品的CURD
 
 
-    //shoppingcart
-    app.post('/api/sendToShoppingCart',async(req,res)=>{
+    //Create
+    app.post('/api/product/ID',async(req,res)=>{
         const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
         const instance=await Account.findById(req.body.memberID);
-        console.log(instance);//it find it
+        
 
         instance.shoppingCart.push(req.body.productID);
 
         await instance.save(); //save update
 
-        await db.disconnect();//clsoe mongodb
+        await db.disconnect();//close mongodb
 
         res.send({state:true});//回傳ture,讓前端渲染畫面
     });
+    
+
+    //Read
+    app.get('/api/product/ID',async(req,res)=>{
+        const uri = "mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+        const collection = client.db("test").collection("product");
+
+        let ProductDetail=await searchProduct(collection,req.query.ID);//根據前端給的id參詢
+
+        client.close();//closedb
+        res.send(ProductDetail);
+        });
+    
+    //Update
+    app.put('/api/product/ID/:memberID',async(req,res)=>{
+        console.log('update shoppingCart');
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        let memberID=req.params.memberID;
+        let config=req.body.obj;
+        const instance=await Account.findById(memberID);
+
+        switch(config.action){//根據不同動作來決定行為
+            case 'add':
+                for(let i=1;i<=config.num;i++){
+                    instance.shoppingCart.push(config.productID);
+                }
+                break;
+            case 'minus':
+                for(let i=1;i<=config.num;i++){
+                    let index=instance.shoppingCart.indexOf(config.productID);
+                    instance.shoppingCart.splice(index,1);
+                }
+                break;
+        }
+
+        await instance.save();//save update
+
+        await db.disconnect();//close mongodb
+
+        res.send(instance.shoppingCart);
+        
+    });
+
+    
+    //Delete
+    app.delete('/api/product/ID/:memberID/:productID',async(req,res)=>{
+        console.log('delete');
+        const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
+        const {memberID,productID}=req.params;
+        console.log(memberID+'\t'+productID);
+        const instance=await Account.findById(memberID);
+
+        instance.shoppingCart=instance.shoppingCart.filter(ID=>ID!==productID);
+
+        await instance.save();//save update
+        await db.disconnect();//close mongodb
+
+        res.send(instance.shoppingCart);
+    });
+    
+
+
 
 
     //Account Search

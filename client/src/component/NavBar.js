@@ -17,7 +17,10 @@ const NavBar=(props)=>{
             </div>
             <div className="NavShoppingCart"><ShoppingCart /></div>
             <div className="NavHomePageButton">
-                <Link to="/"><div className="homePageIcon"></div></Link>
+                <a href="/">
+                    <div className="homePageIcon"></div>
+                </a>
+                {/* 首頁使用 a tag，因為我希望返回首頁是把所有資料刷新 */}
             </div>
             <div className="NavSearchBar">
                 <SearchBar 

@@ -1,23 +1,30 @@
 import React,{useEffect,useState} from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch} from "react-redux";
+import { showMemberShoppingCart } from "../action";
 import NavBar from "./NavBar";
 import checkURL from "../module/urlDatabase";
+import ShoppingCartComponent from "./ShoppingCartComponent";
 
 
 const ShoppingCartPage=()=>{
     const {memberID}=useParams();
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     const memberShoppingCart=useSelector(state=>state.memberShoppingCart);
     const [fetchSate,setFetchSate]=useState([]);//使用useState做單頁面的渲染
     const [sum,setSum]=useState(0);//購物車的總金額使用state做單頁面的紀錄
+    const [focusID,setFocusID]=useState("");//修改期間的排他性
+    const [focusCountObj,setFoucsCountObj]=useState({});//修改期間的數量物件
 
+    
 
 
     function boxChange(e){
         if(e.target.checked){//如果checkbox是勾選的
             setSum(prev=>prev+parseInt(e.target.value));//將金額加入總金額
+            
         }
         else{//如果checkbox不是是勾選的
             setSum(prev=>prev-parseInt(e.target.value));//扣掉金額
@@ -31,7 +38,35 @@ const ShoppingCartPage=()=>{
 
     };
 
+
+    const childSetFocusID=(ID)=>{
+        setFocusID(ID);
+    };
+
+    const childSetFocusCountObj=(obj)=>{
+        setFoucsCountObj(obj);
+        //會在底層做複製再傳入
+    };
+
+
+    const modifyAPI=async()=>{
+
+        if(Object.keys(focusCountObj).length!==0){//要有變更才call API
+            let res=await axios.put(`/api/product/ID/${memberID}`,{obj:focusCountObj});
+            dispatch(showMemberShoppingCart(res.data));
+        }
+
+        setFoucsCountObj({});//每次從修訂模式出來，都要初始化
+    };
+
+
+    const deleteProduct=async(productID)=>{
+        let res=await axios.delete(`/api/product/ID/${memberID}/${productID}`);
+        dispatch(showMemberShoppingCart(res.data));
+    }
+
     const createItemList=async()=>{
+        
         let list=[];//數量跟產品ID
         if(memberShoppingCart.length!==0){//確保有東西才執行
             for(let i=0;i<memberShoppingCart.length;i++){
@@ -50,11 +85,11 @@ const ShoppingCartPage=()=>{
                 list.push({
                     productID:memberShoppingCart[i],
                     num:num//幾個產品
-                });//最後將沒紀錄的產品寫進陣列
+                });//最後將沒紀錄的產品寫進陣列;
             }
             
          
-            
+
             const product=await Promise.all(list.map(async item=>{
                 //使用promise all 來確保每個資料都有讀取
                 const detail=await axios.get('/api/product/ID',{
@@ -69,7 +104,6 @@ const ShoppingCartPage=()=>{
                     const itemDetail=item.data[0];
                     let productnum=list.find(ele=>ele.productID===itemDetail._id).num;
                     //找出對應id的數量
-                 
                     const photo=checkURL(itemDetail._id);//記得react的img src比較複雜
                     return(
                         <div className="shoppingItemFrame" key={'frame_'+itemDetail._id}>
@@ -89,18 +123,40 @@ const ShoppingCartPage=()=>{
                                 // 點擊圖片前往商品頁
                             >
                             </img>
-                            <div style={{textAlign:'center',
-                                         width:'40%'
-                                         }}>
-                                <div className="productName">{itemDetail.name}</div>
-                                <div className="productPrice">{itemDetail.price}</div>
-                                <div>數量:{productnum}</div>
+                            < ShoppingCartComponent
+                                name={itemDetail.name}
+                                price={itemDetail.price}
+                                num={productnum }
+                                productID={itemDetail._id}
+                                focusID={focusID}
+                                setFoucsID={childSetFocusID}
+                                focusCountObj={focusCountObj}
+                                setFoucsCountObj={childSetFocusCountObj}
+                            />
+                            <div className="shoppingCartSideBox">
+                                <div 
+                                    className="shoppingCartDelete"
+                                    onClick={async()=>{
+                                        await deleteProduct(itemDetail._id);
+                                     }}
+                                >
+                                    <div className="deleteImg"></div>
+                                </div>
+                                <div 
+                                    className="shoppingCartModify"
+                                    onClick={()=>{
+                                        focusID===itemDetail._id? setFocusID(""):setFocusID(itemDetail._id);
+                                        // 更改focusID，並傳到ShoppingCartComponent，根據是否指定項目決定動作
+                                    }}
+                                >
+                                    <div className={focusID===itemDetail._id?'correctImg':'modifyImg'}></div>
+                                </div>
                             </div>
                         </div>
                     )
                 });
                 setFetchSate(itemList);
-                await axios.get('/api/closeDB').then(ans=>{console.log(ans.data)});
+                // await axios.get('/api/closeDB').then(ans=>{console.log(ans.data)});  
                 //一次關掉資料庫 
             }
 
@@ -110,9 +166,16 @@ const ShoppingCartPage=()=>{
     
 
     
+    useEffect(()=>{//只要購物車有更動，就要更新,或是修訂成功就更新;
+            createItemList();
+    },[memberShoppingCart,focusID]);
+
+
     useEffect(()=>{
-        createItemList();
-    },[memberShoppingCart]);
+        if(focusID===""){
+            modifyAPI();//修訂完成後執行
+        }
+    },[focusID]);
 
 
 

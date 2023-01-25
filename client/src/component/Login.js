@@ -26,6 +26,7 @@ const Login=()=>{
         }).then((res)=>{
             if(res.data=="0"){
                 alert("沒有找到該帳號喔!請先註冊會員!");
+                navigate('/signup');
             }
             else{
                 sessionStorage.setItem("session_memberID",res.data.id);
