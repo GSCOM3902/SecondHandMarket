@@ -1,0 +1,167 @@
+.productCube{
+    width: 100%;
+    margin-top: 5vh;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.productFrame{
+    text-align: center;
+    flex: 1;
+}
+.productImage{
+    width:50%;
+}
+.productTitle{
+    width: 50%;
+    flex:1;
+    background-color: white;
+    border:1px;
+    border-style: solid;
+    display:inline-flex;
+}
+
+.componentFrame{
+    width:40%;
+    position:relative;
+    right: -14.5%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+.componentSlidedFrame{
+    width:40%;
+    position:relative;
+    right:calc(-14.5%+40px) ;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+.productName{
+    flex:1;
+    text-align: center;
+    vertical-align: baseline;
+    font-family:'微軟正黑體', "Microsoft JhengHei";
+    font-size: 1.5rem;
+    background-color: white;
+    color:rgb(79, 39, 24);
+}
+
+.productPrice{
+    flex:1;
+    text-align: center;
+    vertical-align: bottom;
+    font-size: 1.5rem;
+    background-color: brown;
+    color: wheat;
+}
+
+.productNumFrame{
+    flex:2;
+    display: flex;
+    flex-direction: row;
+}
+
+.productNum{
+    flex: 1;
+    background-color: darkolivegreen;
+    color:azure;
+    text-align: center;
+    vertical-align: baseline;
+    font-family:微軟正黑體;
+    font-size: 32px;
+}
+
+.productNumControl{
+    flex:1;
+    color: black;
+    font-family:微軟正黑體;
+    font-size: 32px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.productDetail{
+    display: block;
+    background-color:whitesmoke;
+    border-color: gray;
+    border-style: dotted;
+    width:100%;
+    text-align: center;
+    font-size: larger;
+    flex:2;
+}
+
+.productComment{
+    text-align: center;
+    width: 100%;
+    display: block;
+    background-color: darkseagreen;
+    color: aliceblue;
+    border-style:ridge;
+    border-color: beige;
+}
+
+.commentInput{
+    height: 3vh;
+    width: 98vw;
+    border: 0;
+    background-color:wheat;
+    border-radius: 5px;
+}
+
+.commentFlexBox{
+    background-color:darkkhaki;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.addCommentButton{
+    margin-top: 2px;
+    border-radius: 5px;
+    background-color:coral;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.commentTextbox{
+    margin: 2px 2px 2px 2px;
+    width: 98vw;
+    text-align: center;
+    border:solid;
+    border-color: rgba(60, 57, 54, 0.116);
+    background-color:beige;
+    font-family: 微軟正黑體;
+    font-size: 25px;
+    color: black;
+}
+
+.productShoppingCart{
+    width: 100%;
+    display: block;
+    background-color:lightskyblue;
+    position: relative;
+    margin-top:5vh;
+    text-align: center;
+}
+
+.productShoppingCart:hover{
+    background-color: coral;
+}
+
+
+@media (min-width:820px) {
+    .componentFrame{
+        z-index: 1;
+        right:0;
+    }
+}

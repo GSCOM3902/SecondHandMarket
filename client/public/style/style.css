@@ -1,0 +1,19 @@
+@import url("./Homepage.css");
+@import url("./member.css");
+@import url("./ProductPage.css");
+@import url("./shoppingCart.css");
+
+
+body{
+   background-color: blanchedalmond;
+}
+
+.center{
+   display: flex;
+   flex-direction: column;
+   flex-wrap: nowrap;
+   justify-content: center;
+   align-items: center;
+}
+
+
