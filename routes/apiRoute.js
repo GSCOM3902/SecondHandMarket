@@ -58,7 +58,6 @@ module.exports=(app)=>{
        
         await db.disconnect();//關閉資料庫
 
-        console.log(user);
 
 
         if(user.length!==0){//如果有註冊了話
@@ -139,7 +138,7 @@ module.exports=(app)=>{
 
         let ProductDetail=await searchProduct(collection,req.query.ID);//根據前端給的id參詢
 
-        client.close();//closedb
+        await client.close();//closedb
         res.send(ProductDetail);
         });
     
@@ -217,6 +216,8 @@ module.exports=(app)=>{
             res.send('0');
         }
         await addComment(collection,req.body.productID,req.body.newComment);
+
+        await client.close();
 
         res.send('1');
         

@@ -19,6 +19,28 @@ const Product=()=>{
 
 
 
+    const buttonEvent=async ()=>{
+        if(ProductDetail!==null&&memberID===""){
+            alert("請先登入會員");
+            navigate('/login');
+            //指引去登入區
+        }
+        else if(ProductDetail!==null&&memberID!==""){
+            const state=await axios.post('/api/product/ID',{
+                memberID:memberID,
+                productID:ProductDetail._id
+            });
+
+            if(state){
+                dispatch(addItemToShoppingCart(ProductDetail._id));
+                //傳入redux讓shoppingCart更新
+                alert("已經加入購物車!");
+                navigate(`/shoppingCartPage/${memberID}`);
+            }
+        }
+    };
+
+
     const search=async()=>{
         let productDetail=await axios.get('/api/product/ID',{
             params:{ID:productID}
@@ -76,30 +98,13 @@ const Product=()=>{
     },[updateComment]);//有更新留言就重新抓一次資料
 
     useEffect(()=>{
-        if(ProductDetail!==null&&memberID===""){
-            //以免發生抓到NULL物件,沒登入不能加入購物車
+        if(ProductDetail!==null){
             let button=document.getElementById('shoppingCartButton');
-            button.addEventListener('click',async()=>{
-                alert("請先登入會員");
-                navigate('/login');
-                //指引去登入區
-            });
-        }
-        else if(ProductDetail!==null&&memberID!==""){//已經登入
-            let button=document.getElementById('shoppingCartButton');
-            button.addEventListener('click',async()=>{
-                const state=await axios.post('/api/product/ID',{
-                    memberID:memberID,
-                    productID:ProductDetail._id
-                });
+            button.addEventListener('click',buttonEvent);
 
-                if(state){
-                    dispatch(addItemToShoppingCart(ProductDetail._id));
-                    //傳入redux讓shoppingCart更新
-                    alert("已經加入購物車!");
-                    navigate(`/shoppingCartPage/${memberID}`);
-                }
-            });
+            return ()=>{
+                button.removeEventListener('click',buttonEvent);//移除掉，以免多次使用
+            }
         }
     },[ProductDetail]);
 
