@@ -191,7 +191,7 @@ const ShoppingCartPage=()=>{
                         項商品!
                     </div>
                 </div>
-                {fetchSate.length!==0?fetchSate:'目前還沒商品喔!'/*根據fetchstate來產生畫面*/}
+                {memberShoppingCart.length!==0?fetchSate:'目前還沒商品喔!'/*根據購物車是否有商品來產生畫面*/}
             </div>
         
             <div className="checkoutFrame">

@@ -7,7 +7,9 @@ const keys=require('./config/keys');
 require('./model/Account');
 require('./services/passport');
 
+
 require('events').EventEmitter.defaultMaxListeners = 100;
+//把request的數量調大，以免堵塞
 
 
 const PORT=process.env.PORT||5000;
@@ -28,11 +30,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
     
-  
-
 const route=require('./routes/apiRoute');
-
 route(app);
+
 
 if(process.env.NODE_ENV==='production'){
 

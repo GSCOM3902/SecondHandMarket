@@ -4,7 +4,10 @@ const Account=require("../model/Account");
 const passport =require('passport');
 const extractProduct=require('../model/product');
 const searchProduct=require('../model/searchProduct');
+const addComment=require('../model/addComment');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { use } = require("passport");
+
 
 
 module.exports=(app)=>{
@@ -53,17 +56,22 @@ module.exports=(app)=>{
         const user=await Account.where("account").equals(loginAccount);
 
        
-        db.disconnect();//關閉資料庫
+        await db.disconnect();//關閉資料庫
 
         console.log(user);
 
+
         if(user.length!==0){//如果有註冊了話
 
-            
+            if(user[0].password===req.body.password){   
+                res.send({
+                    id:user[0].id
+                })
+            }
 
-            res.send({
-                id:user[0].id
-            })
+            else{
+                res.send("2");
+            }
         }
 
         else{
@@ -194,6 +202,24 @@ module.exports=(app)=>{
         res.send({member:instance});
 
         await db.disconnect();
+    });
+
+
+    //product comment
+    
+    app.post('/api/product/addComment',async(req,res)=>{
+
+        const uri = "mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority";
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+        const collection = client.db("test").collection("product");
+
+        if(req.body.newComment===""){
+            res.send('0');
+        }
+        await addComment(collection,req.body.productID,req.body.newComment);
+
+        res.send('1');
+        
     });
 
 };

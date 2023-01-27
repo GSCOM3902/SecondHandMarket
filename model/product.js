@@ -1,6 +1,6 @@
+const mongoose=require("mongoose");
 
 const extractProduct=new Promise((resolve,reject)=>{//寫進promise控制流程
-    const mongoose=require("mongoose");
     mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
     const connection=mongoose.connection;
     connection

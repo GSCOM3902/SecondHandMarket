@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import { useSelector,useStore,useDispatch } from "react-redux";
-import { memberlogin } from "../action";
 import NavBar from "./NavBar";
 import axios from 'axios';
 
@@ -9,8 +7,7 @@ import axios from 'axios';
 
 const Login=()=>{
     const navigate=useNavigate();
-    const store=useStore();
-    const dispatch=useDispatch();
+
 
 
     const login=async ()=>{
@@ -28,9 +25,12 @@ const Login=()=>{
                 alert("沒有找到該帳號喔!請先註冊會員!");
                 navigate('/signup');
             }
+            else if(res.data=='2'){
+                alert("密碼錯誤請在輸入一次!");
+            }
             else{
                 sessionStorage.setItem("session_memberID",res.data.id);
-                window.history.back();//登入成功，回上一頁
+                navigate('/');//登入成功，回首頁
             }
         });
     };
@@ -62,9 +62,6 @@ const Login=()=>{
                         name="password"
                         id="loginPassword"
                         />
-                    </div>
-                    <div className="googlePhoto" id="googleLink">
-                        <a href="/auth/google"></a>
                     </div>
                     <div>
                         <input

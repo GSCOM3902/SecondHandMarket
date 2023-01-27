@@ -5,15 +5,18 @@ import { useParams,useNavigate } from "react-router-dom";
 import checkURL from '../module/urlDatabase';
 import { useSelector,useDispatch } from "react-redux";
 import { addItemToShoppingCart } from "../action";
+import Comment from "./Comment";
 
 
 
 const Product=()=>{
     const {productID}=useParams();
-    const [ProductDetail,setProductDetail]=useState(null);
+    const [ProductDetail,setProductDetail]=useState(null);//產生資料重新刷新
+    const [updateComment,setUpdateComment]=useState(0);//用來控制留言後重新渲染頁面
     const memberID=useSelector(state=>state.memberID);
     const navigate=useNavigate();
     const dispatch=useDispatch();
+
 
 
     const search=async()=>{
@@ -21,11 +24,13 @@ const Product=()=>{
             params:{ID:productID}
         });//接API取得該產品資料
         setProductDetail(productDetail.data[0]);//傳進state才能rerender
-        await axios.get('/api/closeDB');
         //關掉資料庫
     };
 
 
+    const childSetUpdateComment=()=>{
+        setUpdateComment(prev=>prev+1);
+    }
     
 
 
@@ -50,9 +55,12 @@ const Product=()=>{
                         {ProductDetail.detail}
                         </div>
                     </div>
-                    <div className="productComment">
-                        留言
-                    </div>
+                    <div className="productComment">留言</div>
+                    <Comment
+                        productID={productID}
+                        childSetUpdateComment={childSetUpdateComment}
+                        productComment={ProductDetail.comments}
+                    />
                 </div>
                 <div className="productShoppingCart" id="shoppingCartButton">
                     加入購物車
@@ -65,7 +73,7 @@ const Product=()=>{
 
     useEffect(()=>{
         search(); 
-    },[]);
+    },[updateComment]);//有更新留言就重新抓一次資料
 
     useEffect(()=>{
         if(ProductDetail!==null&&memberID===""){

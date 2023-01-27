@@ -71,9 +71,11 @@ const ShoppingCartComponent=(props)=>{
         props.productID===props.focusID?setClassName('componentSlidedFrame'):setClassName("componentFrame");
     },[props.focusID]);
 
+
+    
     //根據改變的數量傳上去要處理的動作
 
-        useEffect(()=>{
+    useEffect(()=>{
         let obj={};//宣告一個空集合，我怕此處宣告的物件記憶體位置都一樣，因此都還在讓他深復製一次
 
         if(currentNum===props.num){//變更的數字跟資料庫數字一樣了話，清除資料
