@@ -110,7 +110,7 @@ const ShoppingCartComponent=(props)=>{
         if(props.focusID===""){//代表沒有任何修訂模式，樣板每個都可以滑
             return(
                 <div
-                    className={className} style={{right:`-14.5%`}}
+                    className={className} style={window.screen.width<810?{right:`-14.5%`}:null}
                     onTouchStartCapture={window.screen.width<810?touchStartEvent:null}
                     onTouchMoveCapture={window.screen.width<810? touchMoveEvent:null}              
                     onTouchEndCapture={window.screen.width<810? touchEndEvent:null}

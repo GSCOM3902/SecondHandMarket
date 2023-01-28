@@ -17,11 +17,18 @@ const ShoppingCartPage=()=>{
     const [sum,setSum]=useState(0);//購物車的總金額使用state做單頁面的紀錄
     const [focusID,setFocusID]=useState("");//修改期間的排他性
     const [focusCountObj,setFoucsCountObj]=useState({});//修改期間的數量物件
+  
 
     
 
 
+    let list=[];//數量跟產品ID
+
+
+
     function boxChange(e){
+
+        
         if(e.target.checked){//如果checkbox是勾選的
             setSum(prev=>prev+parseInt(e.target.value));//將金額加入總金額
             
@@ -35,8 +42,9 @@ const ShoppingCartPage=()=>{
          如果不是在useEffect裡宣告函式，通常不會重新宣告，
          因此封包裡的state值並不會rerender,此時就需要使用previous State
          */
-
     };
+
+  
 
 
     const childSetFocusID=(ID)=>{
@@ -65,9 +73,10 @@ const ShoppingCartPage=()=>{
         dispatch(showMemberShoppingCart(res.data));
     }
 
+
+
     const createItemList=async()=>{
         
-        let list=[];//數量跟產品ID
         if(memberShoppingCart.length!==0){//確保有東西才執行
             for(let i=0;i<memberShoppingCart.length;i++){
                 let num=1;
@@ -100,14 +109,15 @@ const ShoppingCartPage=()=>{
 
 
             if(product){ //再次確認接收到product
-                const itemList=product.map(item=>{
+                const itemList=product.map((item,index)=>{
                     const itemDetail=item.data[0];
                     let productnum=list.find(ele=>ele.productID===itemDetail._id).num;
                     //找出對應id的數量
                     const photo=checkURL(itemDetail._id);//記得react的img src比較複雜
                     return(
                         <div className="shoppingItemFrame" key={'frame_'+itemDetail._id}>
-                            <input 
+                            <input
+                                style={focusID===itemDetail._id?{display:'none'}:null} 
                                 type='checkbox'
                                 id={'itemList_'+itemDetail._id}
                                 name={itemDetail.name}
@@ -137,6 +147,9 @@ const ShoppingCartPage=()=>{
                                 <div 
                                     className="shoppingCartDelete"
                                     onClick={async()=>{
+                                        if(document.getElementById('itemList_'+list[index].productID).checked===true){//根據是否勾選來執行動作
+                                            setSum(prev=>prev-document.getElementById('itemList_'+list[index].productID).value);//減產品價格
+                                        }
                                         await deleteProduct(itemDetail._id);
                                      }}
                                 >
@@ -144,9 +157,13 @@ const ShoppingCartPage=()=>{
                                 </div>
                                 <div 
                                     className="shoppingCartModify"
-                                    onClick={()=>{
+                                    onClick={(e)=>{
                                         focusID===itemDetail._id? setFocusID(""):setFocusID(itemDetail._id);
-                                        // 更改focusID，並傳到ShoppingCartComponent，根據是否指定項目決定動作
+                                        // 更改focusID，並傳到ShoppingCartComponent，根據是否指定項目決定動作;
+                                        if(document.getElementById('itemList_'+list[index].productID).checked===true){
+                                            document.getElementById('itemList_'+list[index].productID).checked=false;
+                                            setSum(prev=>prev-document.getElementById('itemList_'+list[index].productID).value);
+                                        }
                                     }}
                                 >
                                     <div className={focusID===itemDetail._id?'correctImg':'modifyImg'}></div>
@@ -156,10 +173,7 @@ const ShoppingCartPage=()=>{
                     )
                 });
                 setFetchSate(itemList);
-                // await axios.get('/api/closeDB').then(ans=>{console.log(ans.data)});  
-                //一次關掉資料庫 
             }
-
         }
     };
 

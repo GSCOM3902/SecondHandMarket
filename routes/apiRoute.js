@@ -178,7 +178,6 @@ module.exports=(app)=>{
         console.log('delete');
         const db=await mongoose.connect("mongodb+srv://onlineAccount:1234@btd.ghghjai.mongodb.net/?retryWrites=true&w=majority");
         const {memberID,productID}=req.params;
-        console.log(memberID+'\t'+productID);
         const instance=await Account.findById(memberID);
 
         instance.shoppingCart=instance.shoppingCart.filter(ID=>ID!==productID);
