@@ -27,8 +27,39 @@
 
 ## 安裝流程
 
-這專案使用 [git](https://git-scm.com) 和 [npm](https://npmjs.com). 請先安裝他們在本地檔案
+這專案使用 [git](https://git-scm.com),[node](http://nodejs.org)和[npm](https://npmjs.com). 請先安裝他們在本地檔案
+
+1. 先從github下在檔案
 
 ```sh
-$ npm install --global standard-readme-spec
+$ git clone https://github.com/GSCOM3902/SecondHandMarket.git
 ```
+
+2. 移動到該資料夾，安裝程式需要之package
+
+```sh
+$ cd .\SecondHandMarket
+$ npm install
+```
+3. 因為react-script不知道為甚麼需要重灌，因此要往下資料夾移動並重灌
+
+```sh
+$ cd .\client
+$ npm install react-script
+```
+4. 安裝完成後回到上層資料夾，就能開始使用了
+
+```sh
+$ cd ..\
+```
+
+## 使用流程
+
+在該資料夾輸入
+
+```sh
+$ npm run dev
+```
+即可開始體驗網頁!
+
+## 網頁功能概介
