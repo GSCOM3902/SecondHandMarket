@@ -27,3 +27,8 @@
 
 ## 安裝流程
 
+這專案使用 [git](https://git-scm.com) 和 [npm](https://npmjs.com). 請先安裝他們在本地檔案
+
+```sh
+$ npm install --global standard-readme-spec
+```
